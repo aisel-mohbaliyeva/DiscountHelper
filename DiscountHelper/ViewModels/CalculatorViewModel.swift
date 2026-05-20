@@ -37,10 +37,6 @@ final class CalculatorViewModel: ObservableObject {
         return Double(sanitised) ?? 0
     }
 
-    var formattedFinal: String    { Formatter.price(finalPrice) }
-    var formattedSaved: String    { Formatter.price(savedAmount) }
-    var formattedOriginal: String { Formatter.price(originalPrice) }
-
     func reset() {
         priceText       = ""
         discountPercent = 0
@@ -50,13 +46,14 @@ final class CalculatorViewModel: ObservableObject {
         hasResult       = false
     }
 
-    func buildRecord() -> CalculationRecord? {
+    func buildRecord(currency: AppCurrency = .azn) -> CalculationRecord? {
         guard hasResult, originalPrice > 0 else { return nil }
         return CalculationRecord(
             originalPrice:   originalPrice,
             discountPercent: discountPercent,
             finalPrice:      finalPrice,
-            savedAmount:     savedAmount
+            savedAmount:     savedAmount,
+            currencyCode:    currency.rawValue
         )
     }
 
@@ -95,19 +92,9 @@ final class CalculatorViewModel: ObservableObject {
     }
 }
 
-// MARK: - Price formatter
+// MARK: - Date formatters
 
 enum Formatter {
-    static func price(_ value: Double) -> String {
-        let f = NumberFormatter()
-        f.numberStyle             = .decimal
-        f.minimumFractionDigits   = 2
-        f.maximumFractionDigits   = 2
-        f.groupingSeparator       = ","
-        let s = f.string(from: NSNumber(value: value)) ?? "0.00"
-        return "₼ \(s)"
-    }
-
     static func shortDate(_ date: Date) -> String {
         let f = DateFormatter()
         f.dateStyle = .medium

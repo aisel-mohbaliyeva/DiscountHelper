@@ -6,14 +6,13 @@ struct HistoryRowView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
-            // Left: prices + date
             VStack(alignment: .leading, spacing: 3) {
-                Text(Formatter.price(record.originalPrice))
+                Text(record.currency.formatted(record.originalPrice))
                     .font(.dhCaption())
                     .foregroundStyle(.secondary)
                     .strikethrough(color: .secondary.opacity(0.5))
 
-                Text(Formatter.price(record.finalPrice))
+                Text(record.currency.formatted(record.finalPrice))
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                     .foregroundStyle(.primary)
 
@@ -24,7 +23,6 @@ struct HistoryRowView: View {
 
             Spacer()
 
-            // Right: discount badge + saved
             VStack(alignment: .trailing, spacing: 6) {
                 Text(record.discountLabel)
                     .font(.system(size: 12, weight: .semibold))
@@ -33,7 +31,7 @@ struct HistoryRowView: View {
                     .padding(.vertical, 4)
                     .background(Capsule().fill(Color.dhAccent.opacity(0.10)))
 
-                Text("–\(Formatter.price(record.savedAmount))")
+                Text("–\(record.currency.formatted(record.savedAmount))")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundStyle(Color.dhGreen)
             }

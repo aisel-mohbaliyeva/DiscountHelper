@@ -2,11 +2,12 @@ import SwiftUI
 
 struct SplashView: View {
 
-    @State private var isReady    = false
-    @State private var logoScale  : CGFloat = 0.6
-    @State private var logoOpacity: Double  = 0
-    @State private var textOffset : CGFloat = 12
-    @State private var textOpacity: Double  = 0
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var isReady     = false
+    @State private var logoScale   : CGFloat = 0.6
+    @State private var logoOpacity : Double  = 0
+    @State private var textOffset  : CGFloat = 12
+    @State private var textOpacity : Double  = 0
 
     var body: some View {
         Group {
@@ -22,12 +23,7 @@ struct SplashView: View {
 
     private var splashContent: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color(hex: "EBF3FD"), Color(hex: "EDE9FF")],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            splashBackground.ignoresSafeArea()
 
             VStack(spacing: 16) {
                 appLogo
@@ -35,11 +31,15 @@ struct SplashView: View {
                 VStack(spacing: 5) {
                     Text("Discount Helper")
                         .font(.system(size: 26, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color(hex: "1A2A4A"))
+                        .foregroundStyle(colorScheme == .dark ? .white : Color(hex: "1A2A4A"))
 
                     Text("Smart shopping calculator")
                         .font(.system(size: 15))
-                        .foregroundStyle(Color(hex: "6B8AB0"))
+                        .foregroundStyle(
+                            colorScheme == .dark
+                                ? Color.white.opacity(0.50)
+                                : Color(hex: "6B8AB0")
+                        )
                 }
                 .offset(y: textOffset)
                 .opacity(textOpacity)
@@ -47,12 +47,29 @@ struct SplashView: View {
         }
     }
 
+    @ViewBuilder
+    private var splashBackground: some View {
+        if colorScheme == .dark {
+            LinearGradient(
+                colors: [Color(hex: "0C0C0F"), Color(hex: "14141F")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            LinearGradient(
+                colors: [Color(hex: "EEF2FF"), Color(hex: "EDE9FF")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+
     private var appLogo: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(Color.dhAccent)
+                .fill(LinearGradient.dhBrand)
                 .frame(width: 88, height: 88)
-                .shadow(color: Color.dhAccent.opacity(0.35), radius: 16, x: 0, y: 8)
+                .shadow(color: Color(hex: "3B5BDB").opacity(0.38), radius: 18, x: 0, y: 8)
 
             Image(systemName: "tag.fill")
                 .font(.system(size: 38, weight: .medium))

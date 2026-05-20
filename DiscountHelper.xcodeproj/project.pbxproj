@@ -20,6 +20,9 @@
 		AA000011 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011 /* DetailView.swift */; };
 		AA000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100012 /* Assets.xcassets */; };
 		AA000013 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013 /* Components.swift */; };
+		AA000014 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014 /* Currency.swift */; };
+		AA000015 /* CurrencyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100015 /* CurrencyStore.swift */; };
+		AA000016 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		AA100011 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		AA100012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA100013 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		AA100014 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		AA100015 /* CurrencyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyStore.swift; sourceTree = "<group>"; };
+		AA100016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AA200001 /* DiscountHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				AA100002 /* CalculationRecord.swift */,
+				AA100014 /* Currency.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -90,6 +97,7 @@
 			children = (
 				AA100003 /* CalculatorViewModel.swift */,
 				AA100004 /* HistoryStore.swift */,
+				AA100015 /* CurrencyStore.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -121,6 +129,7 @@
 				AA100008 /* CalculatorView.swift */,
 				AA100009 /* HistoryView.swift */,
 				AA100011 /* DetailView.swift */,
+				AA100016 /* SettingsView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -213,6 +222,9 @@
 				AA000008 /* CalculatorView.swift in Sources */,
 				AA000009 /* HistoryView.swift in Sources */,
 				AA000011 /* DetailView.swift in Sources */,
+				AA000014 /* Currency.swift in Sources */,
+				AA000015 /* CurrencyStore.swift in Sources */,
+				AA000016 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

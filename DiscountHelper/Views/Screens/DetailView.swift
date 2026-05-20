@@ -3,6 +3,7 @@ import SwiftUI
 struct DetailView: View {
 
     let record: CalculationRecord
+    @State private var copiedPrice = false
 
     var body: some View {
         ZStack {
@@ -31,38 +32,77 @@ struct DetailView: View {
                 .font(.dhLabel())
                 .foregroundStyle(.white.opacity(0.75))
 
-            Text(Formatter.price(record.finalPrice))
-                .font(.system(size: 44, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
+            HStack(alignment: .center, spacing: 10) {
+                Text(record.currency.formatted(record.finalPrice))
+                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+
+                Button {
+                    UIPasteboard.general.string = record.currency.formatted(record.finalPrice)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    withAnimation(.easeInOut(duration: 0.15)) { copiedPrice = true }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        withAnimation { copiedPrice = false }
+                    }
+                } label: {
+                    Image(systemName: copiedPrice ? "checkmark" : "doc.on.doc")
+                        .font(.system(size: 14))
+                        .foregroundStyle(.white.opacity(0.65))
+                        .padding(8)
+                        .background(Circle().fill(.white.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+                .animation(.easeInOut(duration: 0.15), value: copiedPrice)
+            }
 
             Label(
-                "You saved \(Formatter.price(record.savedAmount))",
+                "Saved \(record.currency.formatted(record.savedAmount))",
                 systemImage: "arrow.down.circle.fill"
             )
             .font(.system(size: 13, weight: .semibold))
             .foregroundStyle(.white.opacity(0.88))
             .padding(.horizontal, 14)
             .padding(.vertical, 7)
-            .background(Capsule().fill(.white.opacity(0.18)))
+            .background(Capsule().fill(.white.opacity(0.15)))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 28)
-        .background(Color.dhAccent)
+        .background(LinearGradient.dhBrand)
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .shadow(color: Color.dhAccent.opacity(0.30), radius: 14, x: 0, y: 6)
+        .shadow(color: Color(hex: "3B5BDB").opacity(0.30), radius: 16, x: 0, y: 6)
     }
 
     // MARK: - Breakdown
 
     private var breakdownCard: some View {
         VStack(spacing: 0) {
-            DetailRow(icon: "tag.fill",         label: "Original Price",   value: Formatter.price(record.originalPrice), valueColor: .primary)
+            DetailRow(
+                icon:       "tag.fill",
+                label:      "Original Price",
+                value:      record.currency.formatted(record.originalPrice),
+                valueColor: .primary
+            )
             RowDivider()
-            DetailRow(icon: "percent",           label: "Discount Applied", value: record.discountLabel,                  valueColor: Color.dhAccent)
+            DetailRow(
+                icon:       "percent",
+                label:      "Discount Applied",
+                value:      record.discountLabel,
+                valueColor: Color.dhAccent
+            )
             RowDivider()
-            DetailRow(icon: "minus.circle.fill", label: "You Saved",        value: Formatter.price(record.savedAmount),   valueColor: Color.dhGreen)
+            DetailRow(
+                icon:       "minus.circle.fill",
+                label:      "You Saved",
+                value:      record.currency.formatted(record.savedAmount),
+                valueColor: Color.dhGreen
+            )
             RowDivider()
-            DetailRow(icon: "calendar",          label: "Saved On",         value: Formatter.longDate(record.date),       valueColor: .secondary)
+            DetailRow(
+                icon:       "calendar",
+                label:      "Saved On",
+                value:      Formatter.longDate(record.date),
+                valueColor: .secondary
+            )
         }
         .padding(.vertical, 4)
         .cardStyle()
@@ -81,13 +121,14 @@ struct DetailView: View {
     }
 
     private func presentShareSheet() {
+        let cur = record.currency
         let text = """
-        Discount Helper Result
+        Discount Helper
         ──────────────────────
-        Original Price : \(Formatter.price(record.originalPrice))
+        Original Price : \(cur.formatted(record.originalPrice))
         Discount       : \(record.discountLabel)
-        Final Price    : \(Formatter.price(record.finalPrice))
-        You Saved      : \(Formatter.price(record.savedAmount))
+        Final Price    : \(cur.formatted(record.finalPrice))
+        You Saved      : \(cur.formatted(record.savedAmount))
         """
         let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         guard

@@ -4,12 +4,14 @@ struct CalculatorView: View {
 
     @StateObject private var vm = CalculatorViewModel()
     @EnvironmentObject private var store: HistoryStore
+    @EnvironmentObject private var currencyStore: CurrencyStore
+    @Environment(\.colorScheme) private var colorScheme
     @FocusState private var priceFocused: Bool
 
     @State private var savedToHistory = false
     @State private var cardBump       = false
+    @State private var copied         = false
 
-    // Quick-pick discount values
     private let quickPicks = [10, 20, 30, 50, 70]
 
     var body: some View {
@@ -45,6 +47,7 @@ struct CalculatorView: View {
                         withAnimation(.easeOut(duration: 0.22)) {
                             vm.reset()
                             savedToHistory = false
+                            copied         = false
                         }
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     }
@@ -67,7 +70,7 @@ struct CalculatorView: View {
             SectionLabel(icon: "dollarsign.circle.fill", title: "Original Price")
 
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text("₼")
+                Text(currencyStore.selected.symbol)
                     .font(.dhPrice())
                     .foregroundStyle(Color.dhAccent)
 
@@ -129,7 +132,6 @@ struct CalculatorView: View {
             .font(.dhCaption())
             .foregroundStyle(.tertiary)
 
-            // Quick-pick chips
             HStack(spacing: 8) {
                 ForEach(quickPicks, id: \.self) { value in
                     DiscountChip(
@@ -139,6 +141,7 @@ struct CalculatorView: View {
                         withAnimation(.spring(response: 0.25)) {
                             vm.discountPercent = Double(value)
                         }
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     }
                 }
             }
@@ -151,29 +154,46 @@ struct CalculatorView: View {
 
     private var resultCard: some View {
         VStack(spacing: 0) {
-            // Hero: final price
-            VStack(spacing: 6) {
-                Text("Final Price")
-                    .font(.dhLabel())
-                    .foregroundStyle(.white.opacity(0.75))
+            ZStack(alignment: .topTrailing) {
+                VStack(spacing: 6) {
+                    Text("Final Price")
+                        .font(.dhLabel())
+                        .foregroundStyle(.white.opacity(0.75))
 
-                Text(vm.formattedFinal)
-                    .font(.dhHero())
-                    .foregroundStyle(.white)
-                    .contentTransition(.numericText())
-                    .animation(.spring(response: 0.38, dampingFraction: 0.7), value: vm.finalPrice)
+                    Text(currencyStore.selected.formatted(vm.finalPrice))
+                        .font(.dhHero())
+                        .foregroundStyle(.white)
+                        .contentTransition(.numericText())
+                        .animation(.spring(response: 0.38, dampingFraction: 0.7), value: vm.finalPrice)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 24)
+                .background(LinearGradient.dhBrand)
+
+                Button {
+                    UIPasteboard.general.string = currencyStore.selected.formatted(vm.finalPrice)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    withAnimation(.easeInOut(duration: 0.15)) { copied = true }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        withAnimation { copied = false }
+                    }
+                } label: {
+                    Image(systemName: copied ? "checkmark" : "doc.on.doc")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.72))
+                        .padding(9)
+                        .background(Circle().fill(.white.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+                .padding(12)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
-            .background(Color.dhAccent)
 
-            // Footer strip: saved + original
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("You save")
                         .font(.dhLabel())
                         .foregroundStyle(.secondary)
-                    Text(vm.formattedSaved)
+                    Text(currencyStore.selected.formatted(vm.savedAmount))
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color.dhGreen)
                         .contentTransition(.numericText())
@@ -186,7 +206,7 @@ struct CalculatorView: View {
                     Text("Original")
                         .font(.dhLabel())
                         .foregroundStyle(.secondary)
-                    Text(vm.formattedOriginal)
+                    Text(currencyStore.selected.formatted(vm.originalPrice))
                         .font(.system(size: 15, weight: .medium, design: .rounded))
                         .foregroundStyle(.primary)
                         .strikethrough(color: .secondary.opacity(0.45))
@@ -197,7 +217,12 @@ struct CalculatorView: View {
             .background(Color.dhCard)
         }
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .shadow(color: Color.dhAccent.opacity(0.22), radius: 14, x: 0, y: 5)
+        .shadow(
+            color: Color(hex: "3B5BDB").opacity(colorScheme == .dark ? 0.32 : 0.18),
+            radius: 14,
+            x: 0,
+            y: 5
+        )
         .scaleEffect(cardBump ? 1.012 : 1)
     }
 
@@ -205,7 +230,7 @@ struct CalculatorView: View {
 
     private var saveButton: some View {
         Button {
-            guard !savedToHistory, let record = vm.buildRecord() else { return }
+            guard !savedToHistory, let record = vm.buildRecord(currency: currencyStore.selected) else { return }
             store.add(record)
             withAnimation(.spring(response: 0.28, dampingFraction: 0.55)) {
                 cardBump       = true
@@ -230,6 +255,15 @@ struct CalculatorView: View {
                     .fill(savedToHistory
                           ? Color.dhGreen.opacity(0.10)
                           : Color.dhAccent.opacity(0.09))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 13, style: .continuous)
+                            .strokeBorder(
+                                savedToHistory
+                                    ? Color.dhGreen.opacity(0.2)
+                                    : Color.dhAccent.opacity(0.15),
+                                lineWidth: 1
+                            )
+                    )
             )
         }
         .buttonStyle(.plain)

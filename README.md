@@ -13,6 +13,10 @@ Discount Helper is designed to help users quickly calculate discounted prices wh
 * Save calculations to history
 * Swipe to delete history items
 * Share calculation results
+* Multi-currency support (AZN, USD, EUR, GBP, TRY)
+* Settings tab with currency picker
+* Copy result button
+* Haptic feedback
 * Dark mode support
 * Smooth SwiftUI animations
 
@@ -25,6 +29,7 @@ Discount Helper is designed to help users quickly calculate discounted prices wh
 * Combine
 * MVVM
 * UserDefaults
+* CurrencyStore
 * Xcode 26
 
 ---

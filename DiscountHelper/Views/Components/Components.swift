@@ -24,16 +24,23 @@ struct DiscountChip: View {
         Button(action: action) {
             Text("\(value)%")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(isSelected ? Color.white : Color.dhAccent)
-                .padding(.horizontal, 13)
-                .padding(.vertical, 7)
+                .foregroundStyle(isSelected ? .white : Color.dhAccent)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
                 .background(
                     Capsule()
-                        .fill(isSelected ? Color.dhAccent : Color.dhAccent.opacity(0.10))
+                        .fill(isSelected ? Color.dhAccent : Color.dhAccent.opacity(0.08))
+                        .overlay(
+                            Capsule()
+                                .strokeBorder(
+                                    isSelected ? Color.clear : Color.dhAccent.opacity(0.22),
+                                    lineWidth: 1
+                                )
+                        )
                 )
         }
         .buttonStyle(.plain)
-        .animation(.easeInOut(duration: 0.15), value: isSelected)
+        .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isSelected)
     }
 }
 
@@ -85,13 +92,19 @@ struct EmptyStateView: View {
     let subtitle: String
 
     var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 52, weight: .thin))
-                .foregroundStyle(.tertiary)
+        VStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(Color.dhAccent.opacity(0.08))
+                    .frame(width: 72, height: 72)
+
+                Image(systemName: icon)
+                    .font(.system(size: 28, weight: .light))
+                    .foregroundStyle(Color.dhAccent.opacity(0.55))
+            }
 
             Text(title)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.secondary)
 
             Text(subtitle)
@@ -119,8 +132,11 @@ struct PrimaryButton: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 15)
-                .background(color)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(color)
+                )
+                .shadow(color: color.opacity(0.28), radius: 8, x: 0, y: 3)
         }
         .buttonStyle(.plain)
     }

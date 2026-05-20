@@ -9,6 +9,16 @@ extension Color {
     static let dhGreen      = Color("SavedGreen")
 }
 
+// MARK: - Branded gradient (indigo → deep violet, works on both modes)
+
+extension LinearGradient {
+    static let dhBrand = LinearGradient(
+        colors: [Color(hex: "3B5BDB"), Color(hex: "5C3DD8")],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+}
+
 // MARK: - Typography
 
 extension Font {
@@ -23,11 +33,20 @@ extension Font {
 // MARK: - Card style
 
 struct CardStyle: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
     func body(content: Content) -> some View {
         content
             .background(Color.dhCard)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+            .shadow(
+                color: colorScheme == .dark
+                    ? .black.opacity(0.45)
+                    : .black.opacity(0.06),
+                radius: colorScheme == .dark ? 16 : 8,
+                x: 0,
+                y: colorScheme == .dark ? 6 : 2
+            )
     }
 }
 
@@ -35,7 +54,7 @@ extension View {
     func cardStyle() -> some View { modifier(CardStyle()) }
 }
 
-// MARK: - Hex color init (used in SplashView gradient)
+// MARK: - Hex color init
 
 extension Color {
     init(hex: String) {
