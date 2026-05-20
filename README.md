@@ -1,6 +1,17 @@
 # Discount Helper
 Discount Helper is designed to help users quickly calculate discounted prices while shopping. It provides instant savings calculations and a simple way to track price reductions in real time.
 ---
+## 📱 Screenshots
+<p float="left">
+  <img src="1.png" width="220">
+  <img src="2.png" width="220">
+  <img src="3.png" width="220">
+</p>
+<p float="left">
+  <img src="4.png" width="220">
+  <img src="5.png" width="220">
+</p>
+
 ## ✨ Features
 * Real-time discount calculation
 * Save calculations to history
@@ -33,15 +44,5 @@ Discount Helper is designed to help users quickly calculate discounted prices wh
 * Swipe actions and gestures
 * Dark mode support
 * Building reusable UI components
----
-## 📱 Screenshots
-<p float="left">
-  <img src="1.png" width="220">
-  <img src="2.png" width="220">
-  <img src="3.png" width="220">
-</p>
-<p float="left">
-  <img src="4.png" width="220">
-  <img src="5.png" width="220">
-</p>
-daha qisa goz yormayan olsun
+
+
