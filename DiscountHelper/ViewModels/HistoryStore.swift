@@ -4,33 +4,40 @@ final class HistoryStore: ObservableObject {
 
     @Published private(set) var records: [CalculationRecord] = []
 
-    private let key = "dh_records_v1"
+    private let storageKey = "dh_history_v2"
 
-    init() { load() }
+    init() {
+        load()
+    }
 
     func add(_ record: CalculationRecord) {
         records.insert(record, at: 0)
-        persist()
+        save()
     }
 
     func delete(at offsets: IndexSet) {
         records.remove(atOffsets: offsets)
-        persist()
+        save()
     }
 
     func deleteAll() {
         records.removeAll()
-        persist()
+        save()
     }
 
-    private func persist() {
-        guard let data = try? JSONEncoder().encode(records) else { return }
-        UserDefaults.standard.set(data, forKey: key)
+    var isEmpty: Bool { records.isEmpty }
+
+    // MARK: - Persistence
+
+    private func save() {
+        if let data = try? JSONEncoder().encode(records) {
+            UserDefaults.standard.set(data, forKey: storageKey)
+        }
     }
 
     private func load() {
         guard
-            let data    = UserDefaults.standard.data(forKey: key),
+            let data    = UserDefaults.standard.data(forKey: storageKey),
             let decoded = try? JSONDecoder().decode([CalculationRecord].self, from: data)
         else { return }
         records = decoded
