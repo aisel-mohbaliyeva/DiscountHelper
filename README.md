@@ -1,36 +1,47 @@
 # Discount Helper
-
-A SwiftUI app for calculating discounted prices instantly while shopping.
-
+Discount Helper is designed to help users quickly calculate discounted prices while shopping. It provides instant savings calculations and a simple way to track price reductions in real time.
 ---
-
 ## ✨ Features
-
-Real-time discount calculation, multi-currency support (AZN, USD, EUR, GBP, TRY), history with swipe-to-delete, copy result, share, haptic feedback, dark mode, and a settings screen with currency picker.
-
+* Real-time discount calculation
+* Save calculations to history
+* Swipe to delete history items
+* Share calculation results
+* Multi-currency support (AZN, USD, EUR, GBP, TRY)
+* Settings tab with currency picker
+* Copy result button
+* Haptic feedback
+* Dark mode support
+* Smooth SwiftUI animations
 ---
-
 ## 🛠 Technologies
-
-Swift 6 · SwiftUI · Combine · MVVM · UserDefaults · Xcode 26
-
+* Swift 6
+* SwiftUI
+* Combine
+* MVVM
+* UserDefaults
+* CurrencyStore
+* Xcode 26
 ---
-
 ## 📚 What I Practiced
-
-State management with `@StateObject` and `@Published`, real-time UI updates via Combine, MVVM architecture, data persistence, input validation, navigation, dark mode, and reusable SwiftUI components.
-
+* SwiftUI layouts and components
+* State management with `@StateObject` and `@Published`
+* MVVM architecture
+* Real-time UI updates using Combine
+* Navigation and TabView
+* Data persistence with UserDefaults
+* Input validation
+* Swipe actions and gestures
+* Dark mode support
+* Building reusable UI components
 ---
-
 ## 📱 Screenshots
-
 <p float="left">
   <img src="1.png" width="220">
   <img src="2.png" width="220">
   <img src="3.png" width="220">
 </p>
-
 <p float="left">
   <img src="4.png" width="220">
   <img src="5.png" width="220">
 </p>
+daha qisa goz yormayan olsun
