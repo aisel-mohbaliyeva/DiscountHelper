@@ -1,13 +1,7 @@
 
 
 
-# 💰 Discount Helper
-
-A simple and modern iOS app built with SwiftUI for quickly calculating discounted prices and savings while shopping.
-
----
-
-## 🎯 Purpose
+# Discount Helper
 
 Discount Helper is designed to help users quickly calculate discounted prices while shopping. It provides instant savings calculations and a simple way to track price reductions in real time.
 
