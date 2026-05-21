@@ -62,16 +62,6 @@ DiscountHelper/
 └── Assets.xcassets/
 ```
 
-## Getting Started
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/aisel-mohbaliyeva/DiscountHelper.git
-   ```
-2. Open `DiscountHelper.xcodeproj` in Xcode 15+
-3. Select a simulator or device (iOS 17+)
-4. Run the project (`Cmd + R`)
-
 ## License
 
 This project is available under the MIT License.
