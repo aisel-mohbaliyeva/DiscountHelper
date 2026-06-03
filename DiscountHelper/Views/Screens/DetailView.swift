@@ -69,7 +69,7 @@ struct DetailView: View {
         .padding(.vertical, 28)
         .background(LinearGradient.dhBrand)
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .shadow(color: Color(hex: "3B5BDB").opacity(0.30), radius: 16, x: 0, y: 6)
+        .shadow(color: Color(hex: "D4524C").opacity(0.30), radius: 16, x: 0, y: 6)
     }
 
     // MARK: - Breakdown

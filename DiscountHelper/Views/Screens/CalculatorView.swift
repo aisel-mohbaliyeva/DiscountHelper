@@ -218,7 +218,7 @@ struct CalculatorView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(
-            color: Color(hex: "3B5BDB").opacity(colorScheme == .dark ? 0.32 : 0.18),
+            color: Color(hex: "D4524C").opacity(colorScheme == .dark ? 0.32 : 0.18),
             radius: 14,
             x: 0,
             y: 5

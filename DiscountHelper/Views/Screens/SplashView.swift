@@ -57,7 +57,7 @@ struct SplashView: View {
             )
         } else {
             LinearGradient(
-                colors: [Color(hex: "EEF2FF"), Color(hex: "EDE9FF")],
+                colors: [Color(hex: "FFF0EE"), Color(hex: "FFE9E6")],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -69,7 +69,7 @@ struct SplashView: View {
             RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .fill(LinearGradient.dhBrand)
                 .frame(width: 88, height: 88)
-                .shadow(color: Color(hex: "3B5BDB").opacity(0.38), radius: 18, x: 0, y: 8)
+                .shadow(color: Color(hex: "D4524C").opacity(0.38), radius: 18, x: 0, y: 8)
 
             Image(systemName: "tag.fill")
                 .font(.system(size: 38, weight: .medium))

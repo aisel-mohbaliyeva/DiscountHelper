@@ -5,13 +5,12 @@ iOS app built with SwiftUI for calculating discounted prices instantly while sho
 ## Screenshots
 
 <p align="center">
-  <img src="1.png" width="230" alt="Splash">
-  <img src="2.png" width="230" alt="Calculator">
-  <img src="3.png" width="230" alt="Result">
+  <img src="screenshots/1.png" width="230" alt="Splash">
+  <img src="screenshots/2.png" width="230" alt="Calculator">
 </p>
 <p align="center">
-  <img src="4.png" width="230" alt="History">
-  <img src="5.png" width="230" alt="Settings">
+  <img src="screenshots/3.png" width="230" alt="Result">
+  <img src="screenshots/4.png" width="230" alt="History">
 </p>
 
 ## Features

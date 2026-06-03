@@ -9,11 +9,11 @@ extension Color {
     static let dhGreen      = Color("SavedGreen")
 }
 
-// MARK: - Branded gradient (indigo → deep violet, works on both modes)
+// MARK: - Branded gradient
 
 extension LinearGradient {
     static let dhBrand = LinearGradient(
-        colors: [Color(hex: "3B5BDB"), Color(hex: "5C3DD8")],
+        colors: [Color(hex: "E8736B"), Color(hex: "D4524C")],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
